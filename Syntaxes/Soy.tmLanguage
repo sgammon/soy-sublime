@@ -20,6 +20,10 @@
 	<array>
 		<dict>
 			<key>include</key>
+			<string>#namespace</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#template</string>
 		</dict>
 		<dict>
@@ -40,11 +44,23 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#comment-soy</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#call</string>
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#css</string>
+			<string>#css-call</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#xid</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#css-dec</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -183,6 +199,31 @@
 				</dict>
 			</array>
 		</dict>
+		<key>comment-soy</key>
+		<dict>
+			<key>begin</key>
+			<string>(\{\#)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.comment.begin.soy</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\#\})</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.comment.end.soy</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>comment.block.soy</string>
+		</dict>
 		<key>comment-block</key>
 		<dict>
 			<key>begin</key>
@@ -268,7 +309,77 @@
 			<key>name</key>
 			<string>comment.line.double-slash.soy</string>
 		</dict>
-		<key>css</key>
+		<key>css-call</key>
+		<dict>
+			<key>begin</key>
+			<string>(\{/?)\s*(css)\(?\'([\w.]+)\'\)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.begin.soy</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.tag.soy</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.css.soy</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\})</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.end.soy</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.call.css.soy</string>
+		</dict>
+		<key>xid</key>
+		<dict>
+			<key>begin</key>
+			<string>(\{/?)\s*(xid)\(?\'([\w.]+)\'\)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.begin.soy</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.tag.soy</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.css.soy</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\})</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.end.soy</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.call.xid.soy</string>
+		</dict>
+		<key>css-dec</key>
 		<dict>
 			<key>begin</key>
 			<string>(\{/?)\s*(css)\b</string>
@@ -394,6 +505,10 @@
 				<dict>
 					<key>include</key>
 					<string>#comment-doc</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comment-soy</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -524,7 +639,15 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#css</string>
+					<string>#css-call</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#xid</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#css-dec</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -696,7 +819,7 @@
 		<key>function</key>
 		<dict>
 			<key>match</key>
-			<string>\b(isFirst|isLast|index|hasData|length|keys|round|floor|ceiling|min|max|randomInt)\b</string>
+			<string>\b(isFirst|isLast|index|hasData|length|keys|round|floor|ceiling|min|max|randomInt|isNonnull)</string>
 			<key>name</key>
 			<string>support.function.soy</string>
 		</dict>
@@ -828,8 +951,10 @@
 				</dict>
 			</array>
 		</dict>
-		<key>namespace</key>
+		<key>delpackage</key>
 		<dict>
+			<key>match</key>
+			<string>(delpackage)\s+([\w\.]+)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -843,8 +968,52 @@
 					<string>variable.parameter.soy</string>
 				</dict>
 			</dict>
-			<key>match</key>
-			<string>(namespace|delpackage)\s+([\w\.]+)</string>
+		</dict>
+		<key>namespace</key>
+		<dict>
+			<key>begin</key>
+			<string>(\{)(namespace)\s+([\w\.]+)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.begin.soy</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.tag.soy</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.soy</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\})</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.end.soy</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#cssattrs-single</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#cssattrs-double</string>
+				</dict>
+			</array>
+			<key>name</key>
+			<string>meta.tag.namespace.soy</string>
 		</dict>
 		<key>number</key>
 		<dict>
@@ -863,7 +1032,7 @@
 		<key>param</key>
 		<dict>
 			<key>begin</key>
-			<string>(\{/?)\s*(param)</string>
+			<string>(\{/?)\s*([@]?param[\?]?|@inject[\?]?)</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -1124,6 +1293,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#delpackage</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#variable</string>
 				</dict>
 				<dict>
@@ -1167,10 +1340,60 @@
 			<key>name</key>
 			<string>entity.name.tag.soy</string>
 		</dict>
+		<key>cssattrs-single</key>
+		<dict>
+			<key>name</key>
+			<string>meta.attrs.cssconfig.single</string>
+			<key>match</key>
+			<string>\b(cssbase|requirecss)[ ]?(=)[ ]?'?([\w\.]+)'?</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.other.attribute-name.soy</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.operator.soy</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>string.quoted.double.soy</string>
+				</dict>
+			</dict>
+		</dict>
+		<key>cssattrs-double</key>
+		<dict>
+			<key>name</key>
+			<string>meta.attrs.cssconfig.double</string>
+			<key>match</key>
+			<string>\b(cssbase|requirecss)[ ]?(=)[ ]?\"([\w\.]+)\"</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.other.attribute-name.soy</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.operator.soy</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>string.quoted.double.soy</string>
+				</dict>
+			</dict>
+		</dict>
 		<key>template</key>
 		<dict>
 			<key>begin</key>
-			<string>(\{/?)\s*(template|deltemplate)</string>
+			<string>(\{/?)\s*(template|deltemplate)\s?([\w\.]+)?</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -1182,6 +1405,11 @@
 				<dict>
 					<key>name</key>
 					<string>entity.name.tag.soy</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.soy</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -1206,9 +1434,14 @@
 							<key>name</key>
 							<string>entity.name.function.soy</string>
 						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.soy</string>
+						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;=template|deltemplate)\s+([\.\w]+)</string>
+					<string>(template|deltemplate)\s+([\.\w]+)\s?</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -1297,6 +1530,14 @@
 					</dict>
 					<key>match</key>
 					<string>\b(autoescape)\s*(=)\s*('true'|'false'|'contextual')</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#cssattrs-single</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#cssattrs-double</string>
 				</dict>
 			</array>
 		</dict>

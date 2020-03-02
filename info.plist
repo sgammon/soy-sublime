@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Soy</string>
+	<string>Closure Templates (Soy)</string>
 	<key>ordering</key>
 	<array>
 		<string>C56846DE-CB9A-4DB5-9D38-DC417DEA4D5F</string>
@@ -15,8 +15,9 @@
 		<string>BE6A0B8A-34ED-4896-B600-2DFE41C7246A</string>
 		<string>6C86EAFA-06ED-47AC-83E4-2F2D28FD0E43</string>
 		<string>B5EF61E9-B4B3-4D9A-800C-75256D077973</string>
+		<string>69E9BC3A-510B-4D5D-9B7A-7ECF878871B3</string>
 	</array>
 	<key>uuid</key>
-	<string>956A2BF6-079E-4D57-BC3D-8DA43F0EE761</string>
+	<string>F194ECD7-BF42-4062-A8A1-C94AA4EC5250</string>
 </dict>
 </plist>
