@@ -13,7 +13,7 @@
 /**
  * I am another block comment
  */
-{template .sub private="true" cssbase='hello.a.path' requirecss = "hello"}
+{template .sub private="true" cssbase = 'hello.a.path' requirecss="hello"}
 	{@param subparam: string}  /** Some sub-param */
 	{@param hola: i.am.a.deep.Path}  /** Some proto */
 	{@param cls: string}  /** Hey again */
@@ -32,7 +32,7 @@
 /**
  * I am yet another block comment
  */
-{template .sup cssbase = 'hello.this.is.a.path'}
+{template .sup cssbase = "hello.this.is.a.path"}
 	{@param yo: string}  /* Hello */
 	{@param? hey: number}  // Sup
 	{@inject hola: i.am.a.deep.Path}

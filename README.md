@@ -6,6 +6,8 @@ A [Sublime Text](http://www.sublimetext.com/) Package (and [TextMate](http://mac
 
 The bundle includes syntax highlighting, the ability to compile or evaluate Closure template inline, convenient symbol listing for functions, and a number of snippets.
 
+![Example screenshot](https://raw.githubusercontent.com/sgammon/soy-sublime/master/Screenshots/Example.png "Example screenshot")
+
 
 ## Sublime Text 3 Installation
 
