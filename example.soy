@@ -1,0 +1,56 @@
+/**
+ * I am a block comment
+ */
+{namespace hi}
+{namespace sup.yo}
+{namespace hello cssbase='sup' requirecss='bonjour'}
+{namespace hello cssbase="sup" requirecss="bonjour"}
+{delpackage some.package.here}
+
+{css GOOG}
+
+
+/**
+ * I am another block comment
+ */
+{template .sub private="true" cssbase='hello.a.path' requirecss = "hello"}
+	{@param subparam: string}  /** Some sub-param */
+	{@param hola: i.am.a.deep.Path}  /** Some proto */
+	{@param cls: string}  /** Hey again */
+	{@param? id: string}  /** Reporting in */
+
+	<b{if isNonnull($id) or floor(5) or randomInt() or isNonnull('hi')} id="{$id}"{/if} class='{$cls}'>
+		{$subparam}{sp}- {length($hola.hey)}
+		<span>
+			{msg desc="Some message description"}Some text{/msg}
+			{msg desc='Another message description'}Some more text{/msg}
+		</span>
+	</b>
+{/template}
+
+
+/**
+ * I am yet another block comment
+ */
+{template .sup cssbase = 'hello.this.is.a.path'}
+	{@param yo: string}  /* Hello */
+	{@param? hey: number}  // Sup
+	{@inject hola: i.am.a.deep.Path}
+
+	{# I am a Soy comment #}
+
+	<html>
+	<head>
+		<title>{$yo}</title>
+	</head>
+	<body id="{xid('yo')}" class="{css('hello')} {css(again.yo)}">
+		<b>{$hey ?: "Hello"}</b>
+		{call hello.sub data="all"}
+			{param subparam: "hello" /}
+			{param hola: $hola /}
+			{param cls: css('sup') /}
+			{param id: xid('hey') /}
+		{/call}
+	</body>
+	</html>
+{/template}

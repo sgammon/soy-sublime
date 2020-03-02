@@ -6,6 +6,8 @@ fileTypes: [soy]
 uuid: C56846DE-CB9A-4DB5-9D38-DC417DEA4D5F
 
 patterns:
+- include: '#namespace'
+
 - include: '#template'
 
 - include: '#if'
@@ -16,9 +18,15 @@ patterns:
 
 - include: '#comment-doc'
 
+- include: '#comment-soy'
+
 - include: '#call'
 
-- include: '#css'
+- include: '#css-dec'
+
+- include: '#css-call'
+
+- include: '#xid'
 
 - include: '#param'
 
@@ -94,13 +102,22 @@ repository:
         '1': {name: support.type.soy}
         '2': {name: variable.parameter.soy}
 
+  comment-soy:
+    name: comment.block.inline.soy
+    begin: (\{\#)
+    beginCaptures:
+      '1': {name: punctuation.definition.comment.begin.soy}
+    end: (\#\})
+    endCaptures:
+      '1': {name: punctuation.definition.comment.end.soy}
+
   comment-line:
     name: comment.line.double-slash.soy
     match: \s*(//).*$\n?
     captures:
       '1': {name: punctuation.definition.comment.soy}
 
-  css:
+  css-dec:
     name: meta.tag.css.soy
     begin: (\{/?)\s*(css)\b
     beginCaptures:
@@ -112,6 +129,31 @@ repository:
     patterns:
     - name: support.constant.soy
       match: \b(LITERAL|REFERENCE|BACKEND_SPECIFIC|GOOG)\b
+
+  css-call:
+    name: meta.call.css.soy
+    begin: (\{/?)\s*(css)\(?\'([\w.]+)\'\)
+    beginCaptures:
+      '1': {name: punctuation.definition.tag.begin.soy}
+      '2': {name: entity.name.tag.soy}
+      '3': {name: entity.name.css.soy}
+    end: (\})
+    endCaptures:
+      '1': {name: punctuation.definition.tag.end.soy}
+    patterns:
+    - name: support.constant.soy
+      match: \b(LITERAL|REFERENCE|BACKEND_SPECIFIC|GOOG)\b
+
+  xid:
+    name: meta.call.xid.soy
+    begin: (\{/?)\s*(xid)\(?\'([\w.]+)\'\)
+    beginCaptures:
+      '1': {name: punctuation.definition.tag.begin.soy}
+      '2': {name: entity.name.tag.soy}
+      '3': {name: entity.name.css.soy}
+    end: (\})
+    endCaptures:
+      '1': {name: punctuation.definition.tag.end.soy}
 
   element-any:
     name: meta.tag.any.soy
@@ -140,6 +182,7 @@ repository:
     - include: '#comment-line'
     - include: '#comment-block'
     - include: '#comment-doc'
+    - include: '#comment-soy'
     - include: '#embedded-code'
     - include: '#element-attribute'
 
@@ -182,7 +225,9 @@ repository:
     - include: '#escaped-char'
     - include: '#if'
     - include: '#call'
-    - include: '#css'
+    - include: '#css-dec'
+    - include: '#css-call'
+    - include: '#xid'
     - include: '#param'
     - include: '#print'
     - include: '#msg'
@@ -238,7 +283,7 @@ repository:
 
   function:
     name: support.function.soy
-    match: \b(isFirst|isLast|index|hasData|length|keys|round|floor|ceiling|min|max|randomInt)\b
+    match: \b(isFirst|isLast|index|hasData|length|keys|round|floor|ceiling|min|max|randomInt|isNonnull)
 
   if:
     name: meta.tag.if.soy
@@ -280,11 +325,45 @@ repository:
         '1': {name: entity.other.attribute-name.soy}
         '2': {name: keyword.operator.soy}
 
-  namespace:
-    match: (namespace|delpackage)\s+([\w\.]+)
+  delpackage:
+    match: (\{)(delpackage)\s+([\w\.]+)(\})
     captures:
-      '1': {name: entity.name.tag.soy}
-      '2': {name: variable.parameter.soy}
+      '1': {name: punctuation.definition.tag.begin.soy}
+      '2': {name: entity.name.tag.soy}
+      '3': {name: variable.parameter.soy}
+
+  namespace:
+    name: meta.tag.namespace.soy
+    begin: (\{)(namespace)\s+([\w\.]+)
+    beginCaptures:
+      '1': {name: punctuation.definition.tag.begin.soy}
+      '2': {name: entity.name.tag.soy}
+      '3': {name: variable.parameter.soy}
+    end: (\})
+    endCaptures:
+      '1': {name: punctuation.definition.tag.end.soy}
+    patterns:
+    - match: (?<=template|deltemplate)\s+([\.\w]+)
+      captures:
+        '1': {name: entity.name.function.soy}
+    - include: '#cssattrs-single'
+    - include: '#cssattrs-double'
+
+  cssattrs-single:
+    name: meta.attrs.cssconfig.single
+    match: \b(cssbase|requirecss)[ ]?(=)[ ]?'?(\w+)'?
+    captures:
+      '1': {name: entity.other.attribute-name.soy}
+      '2': {name: keyword.operator.soy}
+      '3': {name: string.quoted.double.soy}
+
+  cssattrs-double:
+    name: meta.attrs.cssconfig.double
+    match: \b(cssbase|requirecss)[ ]?(=)[ ]?\"(\w+)\"
+    captures:
+      '1': {name: entity.other.attribute-name.soy}
+      '2': {name: keyword.operator.soy}
+      '3': {name: string.quoted.double.soy}
 
   number:
     name: constant.numeric
@@ -296,7 +375,7 @@ repository:
 
   param:
     name: meta.tag.param.soy
-    begin: (\{/?)\s*(param)
+    begin: (\{/?)\s*([@]?param[\?]?|@inject[\?]?)
     beginCaptures:
       '1': {name: punctuation.definition.tag.begin.soy}
       '2': {name: entity.name.tag.soy}
@@ -384,6 +463,7 @@ repository:
       '1': {name: punctuation.definition.tag.end.soy}
     patterns:
     - include: '#namespace'
+    - include: '#delpackage'
     - include: '#variable'
     - include: '#special-character'
     - include: '#tag-simple'
@@ -431,6 +511,8 @@ repository:
         '1': {name: entity.other.attribute-name.soy}
         '2': {name: keyword.operator.soy}
         '3': {name: string.quoted.single.soy}
+    - include: '#cssattrs-single'
+    - include: '#cssattrs-double'
 
   variable:
     name: variable.other.soy
